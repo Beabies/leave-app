@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ระบบบันทึกการลา</title>
+
+  <!-- โหลด Font ภาษาไทยจาก Google -->
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- ลิงก์ไปยังไฟล์ CSS ของเรา -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== ส่วนหัว (Header) ===== -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-icon">📅</div>
+      <div>
+        <h1>ระบบบันทึกการลา</h1>
+        <p>Employee Leave Request System</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== กล่องหลัก ===== -->
+  <main class="container">
+
+    <!-- แถบแสดงสถานะการเชื่อมต่อ -->
+    <div class="status-bar" id="statusBar">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusText">กำลังตรวจสอบการเชื่อมต่อ...</span>
+    </div>
+
+    <!-- ===== ฟอร์มหลัก ===== -->
+    <form id="leaveForm" novalidate>
+
+      <!-- หมวด: ข้อมูลพนักงาน -->
+      <div class="card">
+        <div class="card-title">👤 ข้อมูลพนักงาน</div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="empName">ชื่อ-นามสกุล <span class="req">*</span></label>
+            <input type="text" id="empName" placeholder="เช่น สมชาย ใจดี" />
+            <span class="error" id="empNameErr">กรุณากรอกชื่อ-นามสกุล</span>
+          </div>
+          <div class="field">
+            <label for="empId">รหัสพนักงาน</label>
+            <input type="text" id="empId" placeholder="เช่น EMP001" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="department">แผนก</label>
+            <input type="text" id="department" placeholder="เช่น ฝ่ายบัญชี" />
+          </div>
+          <div class="field">
+            <label for="position">ตำแหน่ง</label>
+            <input type="text" id="position" placeholder="เช่น นักบัญชี" />
+          </div>
+        </div>
+      </div>
+
+      <!-- หมวด: รายละเอียดการลา -->
+      <div class="card">
+        <div class="card-title">📋 รายละเอียดการลา</div>
+
+        <div class="field">
+          <label for="leaveType">ประเภทการลา <span class="req">*</span></label>
+          <select id="leaveType">
+            <option value="">-- เลือกประเภท --</option>
+            <option value="ลาป่วย">🏥 ลาป่วย</option>
+            <option value="ลากิจ">📋 ลากิจ</option>
+            <option value="ลาพักร้อน">🏖️ ลาพักร้อน</option>
+            <option value="ลาคลอด">👶 ลาคลอด</option>
+            <option value="ลาบวช">🙏 ลาบวช</option>
+            <option value="ลาไปรับราชการทหาร">🪖 ลาไปรับราชการทหาร</option>
+            <option value="ลาอื่นๆ">📝 ลาอื่นๆ</option>
+          </select>
+          <span class="error" id="leaveTypeErr">กรุณาเลือกประเภทการลา</span>
+        </div>
+
+        <div class="field">
+          <label for="reason">เหตุผลการลา <span class="req">*</span></label>
+          <textarea
+            id="reason"
+            maxlength="500"
+            placeholder="อธิบายเหตุผลการลาโดยละเอียด..."
+            oninput="updateCharCount(this, 'reasonCount', 500)"
+          ></textarea>
+          <div class="field-footer">
+            <span class="error" id="reasonErr">กรุณากรอกเหตุผล</span>
+            <span class="char-count" id="reasonCount">0 / 500</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- หมวด: วันที่และเวลา -->
+      <div class="card">
+        <div class="card-title">📆 วันที่และเวลา</div>
+
+        <div class="field">
+          <label>วันที่ลา <span class="req">*</span></label>
+          <div class="date-row">
+            <div class="date-group">
+              <small>ตั้งแต่วันที่</small>
+              <input type="date" id="startDate" onchange="calcDays()" />
+            </div>
+            <div class="date-arrow">→</div>
+            <div class="date-group">
+              <small>ถึงวันที่</small>
+              <input type="date" id="endDate" onchange="calcDays()" />
+            </div>
+          </div>
+          <span class="error" id="dateErr">กรุณาเลือกวันที่ให้ถูกต้อง</span>
+
+          <!-- แสดงจำนวนวัน -->
+          <div class="days-badge" id="daysBadge" style="display:none">
+            🗓️ รวม <strong id="daysCount">0</strong> วัน
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="startTime">เวลาเริ่มต้น</label>
+            <input type="time" id="startTime" value="08:30" />
+          </div>
+          <div class="field">
+            <label for="endTime">เวลาสิ้นสุด</label>
+            <input type="time" id="endTime" value="17:30" />
+          </div>
+        </div>
+      </div>
+
+      <!-- หมวด: ข้อมูลเพิ่มเติม -->
+      <div class="card">
+        <div class="card-title">📝 ข้อมูลเพิ่มเติม</div>
+
+        <div class="field">
+          <label for="substitute">ผู้ปฏิบัติงานแทน</label>
+          <input type="text" id="substitute" placeholder="ชื่อเพื่อนร่วมงานที่รับงานแทน" />
+        </div>
+
+        <div class="field">
+          <label for="phone">เบอร์โทรติดต่อระหว่างลา</label>
+          <input type="tel" id="phone" placeholder="เช่น 081-234-5678" />
+        </div>
+
+        <div class="field">
+          <label for="notes">หมายเหตุ</label>
+          <input type="text" id="notes" placeholder="เช่น แนบใบรับรองแพทย์มาด้วย" />
+        </div>
+      </div>
+
+      <!-- ปุ่มส่ง -->
+      <button type="submit" class="btn-submit" id="submitBtn">
+        <span id="btnText">✅ ส่งคำขอลา</span>
+        <span id="btnLoading" style="display:none">⏳ กำลังส่ง...</span>
+      </button>
+
+    </form>
+
+    <!-- ===== หน้าสำเร็จ (ซ่อนไว้ก่อน) ===== -->
+    <div class="success-page" id="successPage" style="display:none">
+      <div class="success-icon">🎉</div>
+      <h2>ส่งคำขอลาสำเร็จ!</h2>
+      <p>ข้อมูลถูกบันทึกลง Google Sheets เรียบร้อยแล้ว</p>
+      <p class="success-sub">HR จะตรวจสอบและแจ้งผลภายใน 1-2 วันทำการ</p>
+      <button class="btn-reset" onclick="resetForm()">+ ส่งคำขอใหม่</button>
+    </div>
+
+  </main>
+
+  <!-- ลิงก์ไปยังไฟล์ JavaScript ของเรา -->
+  <script src="app.js"></script>
+
+</body>
+</html>
