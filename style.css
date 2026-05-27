@@ -1,0 +1,335 @@
+/* ============================================
+   style.css — ไฟล์กำหนดรูปแบบหน้าตา
+   ============================================ */
+
+/* ---- ตั้งค่าพื้นฐานทั้งหน้า ---- */
+* {
+  box-sizing: border-box;  /* ทำให้การคำนวณขนาดง่ายขึ้น */
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Sarabun', sans-serif;
+  font-size: 16px;
+  background-color: #f0f4f8;
+  color: #2d3748;
+  min-height: 100vh;
+}
+
+/* ---- Header ---- */
+.header {
+  background: linear-gradient(135deg, #1565c0, #0288d1);
+  padding: 24px 16px;
+  color: white;
+}
+
+.header-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  font-size: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.header p {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* ---- กล่องหลัก ---- */
+.container {
+  max-width: 640px;
+  margin: 24px auto;
+  padding: 0 16px 40px;
+}
+
+/* ---- แถบสถานะ ---- */
+.status-bar {
+  background: white;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #555;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ccc;
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+
+.status-dot.connected  { background: #48bb78; }  /* เขียว = เชื่อมต่อแล้ว */
+.status-dot.checking   { background: #ed8936; }  /* ส้ม = กำลังตรวจสอบ */
+.status-dot.error      { background: #fc8181; }  /* แดง = มีปัญหา */
+
+/* ---- Card (กล่องแต่ละหมวด) ---- */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1565c0;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* ---- Layout แถวคู่ ---- */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* มือถือ: แสดงเป็นคอลัมน์เดียว */
+@media (max-width: 480px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Field (ช่องกรอกแต่ละอัน) ---- */
+.field {
+  margin-bottom: 14px;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 6px;
+}
+
+/* เครื่องหมาย * สีแดง */
+.req {
+  color: #e53e3e;
+}
+
+/* ---- Input, Select, Textarea ---- */
+input[type="text"],
+input[type="tel"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: 'Sarabun', sans-serif;
+  color: #2d3748;
+  background: #f7fafc;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* เมื่อคลิกเข้าไปในช่อง */
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+  background: white;
+}
+
+/* ช่องที่ validate ไม่ผ่าน */
+input.invalid,
+select.invalid,
+textarea.invalid {
+  border-color: #fc8181;
+  background: #fff5f5;
+}
+
+textarea {
+  min-height: 110px;
+  resize: vertical;  /* ให้ขยายได้เฉพาะแนวตั้ง */
+  line-height: 1.6;
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+}
+
+/* ---- วันที่ ---- */
+.date-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.date-group {
+  flex: 1;
+}
+
+.date-group small {
+  display: block;
+  font-size: 12px;
+  color: #718096;
+  margin-bottom: 4px;
+}
+
+.date-arrow {
+  font-size: 20px;
+  color: #a0aec0;
+  padding-bottom: 10px;
+  flex-shrink: 0;
+}
+
+/* badge แสดงจำนวนวัน */
+.days-badge {
+  display: inline-block;
+  background: #ebf8ff;
+  color: #2b6cb0;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* ---- Error message ---- */
+.error {
+  display: none;         /* ซ่อนไว้ก่อน */
+  font-size: 12px;
+  color: #e53e3e;
+  margin-top: 4px;
+}
+
+.error.show {
+  display: block;        /* แสดงเมื่อ validate ไม่ผ่าน */
+}
+
+/* ---- Footer ของ field ---- */
+.field-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.char-count {
+  font-size: 12px;
+  color: #a0aec0;
+  flex-shrink: 0;
+}
+
+/* ---- ปุ่มส่ง ---- */
+.btn-submit {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #1565c0, #0288d1);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 700;
+  font-family: 'Sarabun', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  margin-top: 8px;
+}
+
+.btn-submit:hover {
+  opacity: 0.92;
+}
+
+.btn-submit:active {
+  transform: scale(0.98);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---- หน้าสำเร็จ ---- */
+.success-page {
+  background: white;
+  border-radius: 20px;
+  padding: 48px 24px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.success-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.success-page h2 {
+  font-size: 24px;
+  color: #2f855a;
+  margin-bottom: 8px;
+}
+
+.success-page p {
+  color: #555;
+  font-size: 15px;
+}
+
+.success-sub {
+  font-size: 13px !important;
+  color: #a0aec0 !important;
+  margin-top: 4px;
+}
+
+.btn-reset {
+  margin-top: 24px;
+  padding: 12px 32px;
+  background: #2f855a;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: 'Sarabun', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-reset:hover {
+  opacity: 0.88;
+}
